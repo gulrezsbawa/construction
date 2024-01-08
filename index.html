@@ -743,7 +743,8 @@
         new Date().getFullYear();
     </script>
     <script>
-      function submitForm() {
+      function submitForm(e) {
+        e.preventDefault();
         const scriptURL =
           "https://script.google.com/macros/s/AKfycbypRFqfEMMr6iY6Ki73f_I-kNmHBanwyOe3823VlADz6pIRPi7uNZjXJZkBSdEU3vEnSw/exec";
         console.log(document.forms);
