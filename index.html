@@ -578,20 +578,25 @@
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
 
-        <form action="">
+        <form id="feedbackForm" name="feedbackForm">
           <h3>get in touch</h3>
-          <input type="text" placeholder="Name" class="box" />
-          <input type="email" placeholder="Email" class="box" />
-          <input type="number" placeholder="Phone" class="box" />
+          <input type="text" name="Name" placeholder="Name" class="box" />
+          <input type="email" name="Email" placeholder="Email" class="box" />
+          <input type="number" name="Phone" placeholder="Phone" class="box" />
           <textarea
-            name=""
+            name="Message"
             placeholder="Message"
             class="box"
             id=""
             cols="30"
             rows="10"
           ></textarea>
-          <input type="submit" value="send message" class="btn" />
+          <input
+            type="button"
+            onClick="submitForm()"
+            value="send message"
+            class="btn"
+          />
         </form>
       </div>
     </section>
@@ -735,6 +740,70 @@
     <script>
       document.getElementById("currentYear").innerHTML =
         new Date().getFullYear();
+    </script>
+    <script>
+      function submitForm() {
+        const scriptURL =
+          "https://script.google.com/macros/s/AKfycbypRFqfEMMr6iY6Ki73f_I-kNmHBanwyOe3823VlADz6pIRPi7uNZjXJZkBSdEU3vEnSw/exec";
+        console.log(document.forms);
+        const data = {};
+        const form = document.forms["feedbackForm"];
+        const formData = new FormData(document.getElementById("feedbackForm"));
+        console.log(formData);
+        formData.forEach((value, key) => {
+          console.log({ key, value });
+          data[key] = value;
+        });
+        console.log(data);
+        fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) =>
+            alert("Thank you! your form is submitted successfully.")
+          )
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => console.error("Error!", error.message));
+        //https://script.google.com/macros/s/AKfycbypRFqfEMMr6iY6Ki73f_I-kNmHBanwyOe3823VlADz6pIRPi7uNZjXJZkBSdEU3vEnSw/exec
+
+        // const formData = new FormData(document.getElementById("feedbackForm"));
+        // const data = {};
+        // // const spreadsheetId = "1AnYnGISzhem7H-taxvKkP-nu7JKk694pHGmZF1XZVXc";
+        // // const apiKey = "cc2b00f27e877d6d8ef821d4d0d0fd78b03cd209";
+        // // const endpoint = `https://cors-anywhere.herokuapp.com/https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1?key=${apiKey}`;
+        // const endpoint = `https://script.google.com/macros/s/AKfycbypRFqfEMMr6iY6Ki73f_I-kNmHBanwyOe3823VlADz6pIRPi7uNZjXJZkBSdEU3vEnSw/exec`;
+        // formData.forEach((value, key) => {
+        //   console.log({ key, value });
+        //   data[key] = value;
+        // });
+
+        // fetch(endpoint, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     values: Object.values(data),
+        //   }),
+        // })
+        //   .then((response) => {
+        //     if (!response.ok) {
+        //       throw new Error("Network response was not ok");
+        //     }
+        //     return response.json();
+        //   })
+        //   .then((data) => {
+        //     console.log("Form submitted successfully:", data);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error submitting form:", error);
+        //   });
+      }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery-js/1.4.0/js/lightgallery.min.js"></script>
 
